@@ -23,14 +23,19 @@ function fillContainer(dimension) {
     square.addEventListener("mouseover", () => {
       if (square.style.backgroundColor === "white") {
         square.style.backgroundColor = getRandomColor();
-        square.style.opacity = "1"; // Set initial opacity to 100%
       } else {
-        let currentOpacity = parseFloat(square.style.opacity);
-        if (currentOpacity > 0) {
-          square.style.opacity = (currentOpacity - 0.1).toString();
-        }
+        let currentColor = square.style.backgroundColor;
+        let [r, g, b] = currentColor.match(/\d+/g).map(Number);
+
+        // Decrease the RGB values by 10%, ensuring they don't go below 0
+        r = Math.max(0, r - Math.floor(r * 0.1));
+        g = Math.max(0, g - Math.floor(g * 0.1));
+        b = Math.max(0, b - Math.floor(b * 0.1));
+
+        square.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
       }
     });
+
     container.appendChild(square);
   }
 }
